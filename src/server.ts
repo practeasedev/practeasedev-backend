@@ -1,4 +1,4 @@
-import './loadenv';
+import './load_env';
 import mongoose from 'mongoose';
 
 //connecting to server
