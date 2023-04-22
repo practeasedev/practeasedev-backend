@@ -14,20 +14,11 @@ export const getProjects = async () => {
                 slug: 1
             }
         );
-        
-        if(projects.length === 0) {
-            return {
-                status: 200,
-                success: true,
-                message: 'No projects exist',
-                data:[]
-            }
-        }
 
         return {
             status: 200,
             success: true,
-            message: 'Successfully fetched projects',
+            message: projects.length === 0 ? 'No projects exist': 'Successfully fetched projects',
             data: projects
         }
     } catch(error) {

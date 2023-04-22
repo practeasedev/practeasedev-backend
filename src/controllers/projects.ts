@@ -1,17 +1,10 @@
 import { generateAPIResponse } from "../common/helper";
-import { ServiceResponse } from "../common/types";
+import { IServiceResponse } from "../common/types";
 import { getProjects } from "../services/projects"
 
 export const getAllProjects = async () => {
     try {
-        const result:ServiceResponse = await getProjects();
-
-        if(!result.success) {
-            return {
-                status: result.status,
-                response: generateAPIResponse(result.message)
-            }
-        }
+        const result:IServiceResponse = await getProjects();
 
         return {
             status: result.status,
