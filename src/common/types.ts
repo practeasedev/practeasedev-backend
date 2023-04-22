@@ -4,9 +4,9 @@ export interface Response {
     success: boolean
 }
 
-export interface APIResponse extends Response{}
+export interface IAPIResponse extends Response{}
 
-export interface ServiceResponse extends Response {
+export interface IServiceResponse extends Response {
     status: number
 }
  
