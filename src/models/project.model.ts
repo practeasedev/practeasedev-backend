@@ -8,7 +8,7 @@ enum Difficulty_Level {
 }
 
 enum Category {
-    components="componenets",
+    components="components",
     singlePage='single page',
     multiPage='multi page',
     backend='backend',
@@ -18,6 +18,7 @@ enum Category {
 const ProjectSchema: Schema = new Schema({
     project_name: String,
     project_description: String,
+    project_image: String,
     difficulty_level: {
         type: String,
         enum: Difficulty_Level,
@@ -33,16 +34,17 @@ const ProjectSchema: Schema = new Schema({
     user_stories: String,
     download_link: String,
     key_concepts: String,
-    resource_links: String,
+    resource_links: String,  
     created_on: {
-        type: Date,
+        type: String,
         immutable: true,
-        default: () => Date.now()
+        default: () => new Date().toLocaleString()
     },
     modified_on: {
-        type: Date,
-        default: () => Date.now()
-    }
+        type: String,
+        default: () => new Date().toLocaleString()
+    },
+    likes: Number,
 });
 
 const Project = model("projects", ProjectSchema)
