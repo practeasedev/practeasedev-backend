@@ -1,21 +1,45 @@
-import{ Schema, model, SchemaTypes } from "mongoose";
+import { Schema, model, Document, SchemaTypes, Types } from "mongoose";
 
-const ProjectCommentSchema: Schema = new Schema({
-    user_id: SchemaTypes.ObjectId,
-    project_id: SchemaTypes.ObjectId,
-    comment: String,
-    is_deleted: Boolean,
-    created_on: {
-        type: Date,
-        immutable: true,
-        default: () => Date.now()
-    },
-    modified_on: {
-        type: Date,
-        default: () => Date.now()
-    }
+interface IProjectComments extends Document {
+  user_id: Types.ObjectId;
+  project_id: Types.ObjectId;
+  comment: string;
+  is_deleted?: boolean;
+  created_on?: string;
+  modified_on?: string;
+}
+
+const ProjectCommentSchema: Schema = new Schema<IProjectComments>({
+  user_id: {
+    type: SchemaTypes.ObjectId,
+    required: true,
+  },
+  project_id: {
+    type: SchemaTypes.ObjectId,
+    required: true,
+  },
+  comment: {
+    type: String,
+    required: true,
+  },
+  is_deleted: {
+    type: Boolean,
+    default: false,
+  },
+  created_on: {
+    type: String,
+    immutable: true,
+    default: () => new Date().toLocaleString(),
+  },
+  modified_on: {
+    type: String,
+    default: () => new Date().toLocaleString(),
+  },
 });
 
-const Comment = model('project_comments', ProjectCommentSchema)
+const projectComment = model<IProjectComments>(
+  "project_comments",
+  ProjectCommentSchema
+);
 
-export default Comment;
+export default projectComment;
