@@ -1,47 +1,53 @@
 import { ObjectId } from "mongodb";
+import { RESPONSE_STATUS } from "../common/constants";
 import Project from "../models/project.model";
 import UserProjectTracking from "../models/user_project_tracking.model";
 
 export const getProjects = async () => {
-    try {
-        const projects = await Project.find(
-            {}, 
-            {
-                project_name: 1,
-                project_description: 1,
-                project_image: 1,
-                difficulty_level: 1,
-                likes: 1,
-                category: 1,
-                slug: 1
-            }
-        );
+  try {
+    const projects = await Project.find(
+      {},
+      {
+        project_name: 1,
+        project_description: 1,
+        project_image: 1,
+        difficulty_level: 1,
+        likes: 1,
+        category: 1,
+        slug: 1,
+      }
+    );
 
-        return {
-            status: 200,
-            success: true,
-            message: projects.length === 0 ? 'No projects exist': 'Successfully fetched projects',
-            data: projects
-        }
-    } catch(error) {
-        throw error;
-    }
-}
+    return {
+      status: RESPONSE_STATUS.Success,
+      success: true,
+      message:
+        projects.length === 0
+          ? "No projects exist"
+          : "Successfully fetched projects",
+      data: projects,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const getProject = async (projectId: string) => {
-    try {
-        const project = await  Project.findOne(
-            {_id: projectId},
-            {created_on: 0, modified_on:0, __v:0}
-        );
+  try {
+    const project = await Project.findOne(
+      { _id: projectId },
+      { created_on: 0, modified_on: 0, __v: 0 }
+    );
 
-        return {
-            status: 200,
-            success: true,
-            message: !project ? 'No such project exists': 'Successfully fetched project details',
-            data: project || {}
-        }
-    } catch (error) {
-        throw error;
-    }
-}
+    return {
+      status: RESPONSE_STATUS.Success,
+      success: true,
+      message: !project
+        ? "No such project exists"
+        : "Successfully fetched project details",
+      data: project || {},
+    };
+  } catch (error) {
+    throw error;
+  }
+};

@@ -1,12 +1,22 @@
-export interface Response {
-    message: string
-    data: any
-    success: boolean
+export interface IResponse {
+  message: string;
+  data: any;
+  success: boolean;
 }
 
-export interface IAPIResponse extends Response{}
+export interface IAPIResponse extends IResponse {}
 
-export interface IServiceResponse extends Response {
-    status: number
+export interface IServiceResponse extends IResponse {
+  status: number;
 }
- 
+
+export interface IControllerResponse {
+  status: number;
+  response: IAPIResponse;
+}
+
+export interface IAPIResponseArgs {
+  message: string;
+  success?: boolean;
+  data?: any;
+}
