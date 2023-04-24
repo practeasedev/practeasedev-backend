@@ -1,4 +1,6 @@
+import { ObjectId } from "mongodb";
 import Project from "../models/project.model";
+import UserProjectTracking from "../models/user_project_tracking.model";
 
 export const getProjects = async () => {
     try {
@@ -22,6 +24,24 @@ export const getProjects = async () => {
             data: projects
         }
     } catch(error) {
+        throw error;
+    }
+}
+
+export const getProject = async (projectId: string) => {
+    try {
+        const project = await  Project.findOne(
+            {_id: projectId},
+            {created_on: 0, modified_on:0, __v:0}
+        );
+
+        return {
+            status: 200,
+            success: true,
+            message: !project ? 'No such project exists': 'Successfully fetched project details',
+            data: project || {}
+        }
+    } catch (error) {
         throw error;
     }
 }
