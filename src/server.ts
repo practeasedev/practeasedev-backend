@@ -5,6 +5,7 @@ import projectsRouter from "./routes/projects";
 import { API_PREFIX_v1 } from "./common/constants";
 import commentsRouter from "./routes/comments";
 import redisClient from "./services/cache";
+import authRouter from "./routes/auth";
 
 
 const PORT = process.env.PORT || 5000;
@@ -14,6 +15,7 @@ const app: Express = express();
 app.use(express.json());
 app.use(`${API_PREFIX_v1}/projects`, projectsRouter);
 app.use(`${API_PREFIX_v1}/comments`, commentsRouter);
+app.use(`${API_PREFIX_v1}/auth`, authRouter);
 
 const startConnections = async () => {
   try {
@@ -26,7 +28,7 @@ const startConnections = async () => {
   }
 }
 
-app.listen( PORT, () => {
+app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
     startConnections();
 });
