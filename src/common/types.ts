@@ -20,3 +20,12 @@ export interface IAPIResponseArgs {
   success?: boolean;
   data?: any;
 }
+
+export interface IUserObject {
+  userName: string;
+  userId: string;
+}
+
+export interface IVerifyJWTTokenReturnVal extends Partial<IUserObject> {
+  authorizationSuccess: boolean;
+}
