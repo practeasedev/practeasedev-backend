@@ -107,7 +107,10 @@ export const registerUser = async (req: Request) => {
     }
 
     const userAccessToken = createJWTToken(userData);
-    // const userAccessToken = createJWTToken({ username: "Anu", userId: 0 });
+    // const userAccessToken = createJWTToken({
+    //   userName: "Test User0",
+    //   userId: "644427053a1450db9ee14f85",
+    // });
 
     return {
       status: 200,
