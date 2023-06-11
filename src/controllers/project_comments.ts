@@ -1,5 +1,9 @@
 import { Request } from "express";
-import { IControllerResponse, IServiceResponse } from "../common/types";
+import {
+  IControllerResponse,
+  IRequestWithUserDetails,
+  IServiceResponse,
+} from "../common/types";
 import { generateAPIResponse } from "../common/helper";
 import {
   getCommentsByOffset,
@@ -11,7 +15,7 @@ import { Types } from "mongoose";
 import { RESPONSE_STATUS } from "../common/constants";
 
 export const getComments = async (
-  req: Request
+  req: IRequestWithUserDetails
 ): Promise<IControllerResponse> => {
   try {
     const { projectId } = req.params;
@@ -32,12 +36,15 @@ export const getComments = async (
   }
 };
 
-export const addComment = async (
-  req: Request
-): Promise<IControllerResponse> => {
+export const addComment = async ({
+  params,
+  body,
+  user,
+}: IRequestWithUserDetails): Promise<IControllerResponse> => {
   try {
-    const { userId, projectId } = req.params;
-    const { commentText = "" } = req.body || {};
+    const { projectId } = params;
+    const { commentText = "" } = body || {};
+    const { userId } = user;
     if (!commentText) {
       return {
         status: RESPONSE_STATUS.Bad_Request,
@@ -63,12 +70,15 @@ export const addComment = async (
   }
 };
 
-export const editComment = async (
-  req: Request
-): Promise<IControllerResponse> => {
+export const editComment = async ({
+  params,
+  body,
+  user,
+}: IRequestWithUserDetails): Promise<IControllerResponse> => {
   try {
-    const { commentId, userId } = req.params;
-    const { commentText = "" } = req.body || {};
+    const { commentId } = params;
+    const { commentText = "" } = body || {};
+    const { userId } = user;
     if (!commentText) {
       return {
         status: RESPONSE_STATUS.Bad_Request,
@@ -94,11 +104,13 @@ export const editComment = async (
   }
 };
 
-export const deleteComment = async (
-  req: Request
-): Promise<IControllerResponse> => {
+export const deleteComment = async ({
+  params,
+  user,
+}: IRequestWithUserDetails): Promise<IControllerResponse> => {
   try {
-    const { commentId, userId } = req.params;
+    const { commentId } = params;
+    const { userId } = user;
 
     const { status, message, data, success }: IServiceResponse =
       await deleteCommentById({

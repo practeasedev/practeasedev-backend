@@ -1,3 +1,5 @@
+import { Request } from "express";
+
 export interface IResponse {
   message: string;
   data: any;
@@ -28,4 +30,8 @@ export interface IUserObject {
 
 export interface IVerifyJWTTokenReturnVal extends Partial<IUserObject> {
   authorizationSuccess: boolean;
+}
+
+export interface IRequestWithUserDetails extends Request {
+  user: IUserObject;
 }
