@@ -5,11 +5,7 @@ export const generateAPIResponse = ({
   success = false,
   data = [],
 }: IAPIResponseArgs): IAPIResponse => {
-  return {
-    success,
-    message,
-    data,
-  };
+  return { success, message, data };
 };
 
 export const getInternalServerResponse = (error: any): IAPIResponse => {
