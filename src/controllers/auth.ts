@@ -65,6 +65,7 @@ export const registerUser = async (req: Request) => {
     );
 
     let userData: any;
+    let isNewUser = false;
 
     if (!userDataResult.success) {
       const userGithubDataResult = await axios.get(GITHUB_GET_USER_URL, {
@@ -96,6 +97,8 @@ export const registerUser = async (req: Request) => {
         userName: github_id,
         email: primaryUserEmailData.email,
       };
+
+      isNewUser = true
     } else {
       const { _id, avatar_url, github_id } = userDataResult.data as any;
       userData = {
@@ -115,7 +118,7 @@ export const registerUser = async (req: Request) => {
     return {
       status: 200,
       response: generateAPIResponse({
-        message: "successfully created user",
+        message: isNewUser ? "successfully created user" : "successfully logged in",
         data: userAccessToken,
         success: true,
       }),

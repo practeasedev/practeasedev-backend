@@ -5,9 +5,9 @@ import { RESPONSE_STATUS } from "../common/constants";
 
 const projectsRouter = Router();
 
-projectsRouter.get("/", async (req: Request, res: Response) => {
-  try {
-    const { status, response } = await getAllProjects();
+projectsRouter.get("/:category", async (req: Request, res: Response) => {
+  try { 
+    const { status, response } = await getAllProjects(req)
     res.status(status).json(response);
   } catch (error) {
     res
