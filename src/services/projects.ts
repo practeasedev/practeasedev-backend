@@ -1,12 +1,12 @@
-import { ObjectId } from "mongodb";
 import { RESPONSE_STATUS } from "../common/constants";
 import Project from "../models/project.model";
-import UserProjectTracking from "../models/user_project_tracking.model";
 
-export const getProjects = async () => {
+export const getProjects = async (category: string) => {
   try {
+    const filters: any = (category === "all") ? {} : { category }
+
     const projects = await Project.find(
-      {},
+      filters,
       {
         project_name: 1,
         project_description: 1,

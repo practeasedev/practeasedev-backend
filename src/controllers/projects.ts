@@ -4,10 +4,11 @@ import { IServiceResponse } from "../common/types";
 import { getProject, getProjects } from "../services/projects";
 import { ObjectId } from "mongodb";
 
-export const getAllProjects = async () => {
+export const getAllProjects = async (req:Request) => {
   try {
+    const {category} = req.params;
     const { status, message, success, data }: IServiceResponse =
-      await getProjects();
+      await getProjects(category);
 
     return {
       status: status,
