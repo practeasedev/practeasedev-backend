@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { verifyJWTToken } from "../services/jwttoken";
 import { generateAPIResponse } from "../common/helper";
-import { RESPONSE_STATUS } from "../common/constants";
+import { RESPONSE_STATUS, unguardedRoutes } from "../common/constants";
 
 export const authorizationCheck = (req: Request, res: Response, next) => {
-  if (req.originalUrl.includes("auth/register") || req.originalUrl.includes("auth/logout")) next();
+  if (unguardedRoutes.some((route) => req.originalUrl.includes(route))) next();
   else {
     const { authorizationSuccess, ...userDetails } = verifyJWTToken(
       req.headers
