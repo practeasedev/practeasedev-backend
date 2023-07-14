@@ -4,6 +4,7 @@ import express, { Express } from "express";
 import projectsRouter from "./routes/projects";
 import { API_PREFIX_v1 } from "./common/constants";
 import commentsRouter from "./routes/comments";
+import mailingRouter from './routes/mailing';
 // import redisClient from "./services/cache";
 import cors from 'cors';
 import authRouter from "./routes/auth";
@@ -22,6 +23,7 @@ app.use(authorizationCheck);
 app.use(`${API_PREFIX_v1}/projects`, projectsRouter);
 app.use(`${API_PREFIX_v1}/comments`, commentsRouter);
 app.use(`${API_PREFIX_v1}/auth`, authRouter);
+app.use(`${API_PREFIX_v1}/mails`,  mailingRouter);
 
 const startConnections = async () => {
   try {
