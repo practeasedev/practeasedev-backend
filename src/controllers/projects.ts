@@ -4,11 +4,11 @@ import { IServiceResponse } from "../common/types";
 import { getProject, getProjects } from "../services/projects";
 import { ObjectId } from "mongodb";
 
-export const getAllProjects = async (req:Request) => {
+export const getAllProjects = async (req: Request) => {
   try {
-    const {category} = req.params;
+    const { filters } = req.body;
     const { status, message, success, data }: IServiceResponse =
-      await getProjects(category);
+      await getProjects(filters);
 
     return {
       status: status,
@@ -21,8 +21,8 @@ export const getAllProjects = async (req:Request) => {
 
 export const getSingleProject = async (req: Request) => {
   try {
-    const { projectId } = req.params;
-    if (!projectId) {
+    const { projectSlug } = req.params;
+    if (!projectSlug) {
       return {
         status: 400,
         response: generateAPIResponse({
@@ -32,16 +32,8 @@ export const getSingleProject = async (req: Request) => {
       };
     }
 
-    if (!ObjectId.isValid(projectId)) {
-      return {
-        status: 400,
-        response: generateAPIResponse({ message: "Not a valid project id" }),
-        data: {},
-      };
-    }
-
     const { status, message, success, data }: IServiceResponse =
-      await getProject(projectId);
+      await getProject(projectSlug);
 
     return {
       status: status,

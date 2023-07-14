@@ -1,12 +1,10 @@
 import { RESPONSE_STATUS } from "../common/constants";
 import Project from "../models/project.model";
 
-export const getProjects = async (category: string) => {
+export const getProjects = async (filters: any) => {
   try {
-    const filters: any = (category === "all") ? {} : { category }
-
     const projects = await Project.find(
-      filters,
+      { ...filters },
       {
         project_name: 1,
         project_description: 1,
@@ -32,10 +30,10 @@ export const getProjects = async (category: string) => {
   }
 };
 
-export const getProject = async (projectId: string) => {
+export const getProject = async (projectSlug: string) => {
   try {
     const project = await Project.findOne(
-      { _id: projectId },
+      { slug: projectSlug },
       { created_on: 0, modified_on: 0, __v: 0 }
     );
 
