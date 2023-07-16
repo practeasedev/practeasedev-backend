@@ -26,6 +26,8 @@ export interface IAPIResponseArgs {
 export interface IUserObject {
   userName: string;
   userId: string;
+  avatarUrl: string;
+  email: string;
 }
 
 export interface IVerifyJWTTokenReturnVal extends Partial<IUserObject> {

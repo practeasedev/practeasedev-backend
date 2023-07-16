@@ -13,6 +13,8 @@ interface IAddCommentForProject {
   projectId: Types.ObjectId;
   userId: string;
   commentText: string;
+  userName: string;
+  avatarUrl: string;
 }
 
 interface IEditCommentById {
@@ -34,9 +36,12 @@ export const getCommentsByOffset = async ({
 }: IGetComments): Promise<IServiceResponse> => {
   try {
     const comments = await projectComment
-      .find({ project_id: { $eq: new ObjectId(projectId) } })
+      .find(
+        { project_id: { $eq: new ObjectId(projectId) } },
+        { user_id: 0, project_id: 0, _v: 0, is_deleted: 0, created_on: 0 }
+      )
       .sort({ created_on: "desc" })
-      .skip(offset)
+      .skip(offset * COMMENTS_LIMIT)
       .limit(COMMENTS_LIMIT);
 
     return {
@@ -55,12 +60,16 @@ export const getCommentsByOffset = async ({
 export const addCommentForProject = async ({
   projectId,
   userId,
+  userName,
+  avatarUrl,
   commentText,
 }: IAddCommentForProject): Promise<IServiceResponse> => {
   try {
     const addedComment = await projectComment.create({
       project_id: new ObjectId(projectId),
       user_id: new ObjectId(userId),
+      user_name: userName,
+      user_avatar_url: avatarUrl,
       comment: commentText,
     });
 
@@ -69,7 +78,7 @@ export const addCommentForProject = async ({
       success: true,
       message: addedComment
         ? "Successfully posted comment"
-        : "Comment not found",
+        : "Something went wrong",
       data: addedComment,
     };
   } catch (error) {
