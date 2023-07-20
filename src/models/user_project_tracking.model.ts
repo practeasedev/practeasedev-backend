@@ -1,8 +1,14 @@
 import{ Schema, model, SchemaTypes } from "mongoose";
 
 const ProjectStatSchema: Schema = new Schema({
-    is_completed: Boolean,
-    is_liked: Boolean
+    is_completed: {
+        type:Boolean,
+        default: false
+    },
+    is_liked: {
+        type:Boolean,
+        default: false
+    }
 })
 
 const UserProjectTrackingSchema:Schema = new Schema({
