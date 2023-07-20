@@ -44,7 +44,7 @@ export const addComment = async ({
   try {
     const { projectId } = params;
     const { commentText = "" } = body || {};
-    const { userId } = user;
+    const { userId, userName, avatarUrl } = user;
     if (!commentText) {
       return {
         status: RESPONSE_STATUS.Bad_Request,
@@ -58,6 +58,8 @@ export const addComment = async ({
       await addCommentForProject({
         userId,
         commentText,
+        userName,
+        avatarUrl,
         projectId: projectId as unknown as Types.ObjectId,
       });
 
