@@ -3,10 +3,12 @@ import { Schema, model, Document, SchemaTypes, Types } from "mongoose";
 interface IProjectComments extends Document {
   user_id: Types.ObjectId;
   project_id: Types.ObjectId;
+  user_name: string;
+  user_avatar_url: string;
   comment: string;
   is_deleted?: boolean;
-  created_on?: string;
-  modified_on?: string;
+  created_on?: number;
+  modified_on?: number;
 }
 
 const ProjectCommentSchema: Schema = new Schema<IProjectComments>({
@@ -18,6 +20,14 @@ const ProjectCommentSchema: Schema = new Schema<IProjectComments>({
     type: SchemaTypes.ObjectId,
     required: true,
   },
+  user_name: {
+    type: String,
+    required: true,
+  },
+  user_avatar_url: {
+    type: String,
+    required: true,
+  },
   comment: {
     type: String,
     required: true,
@@ -27,13 +37,13 @@ const ProjectCommentSchema: Schema = new Schema<IProjectComments>({
     default: false,
   },
   created_on: {
-    type: String,
+    type: Number,
     immutable: true,
-    default: () => new Date().toLocaleString(),
+    default: () => new Date().getTime(),
   },
   modified_on: {
-    type: String,
-    default: () => new Date().toLocaleString(),
+    type: Number,
+    default: () => new Date().getTime(),
   },
 });
 

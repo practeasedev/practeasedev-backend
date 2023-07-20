@@ -26,7 +26,7 @@ commentsRouter.get(
 );
 
 commentsRouter.post(
-  "/:projectId/add_comment",
+  "/add_comment/:projectId",
   async (req: IRequestWithUserDetails, res: Response) => {
     try {
       const { status, response } = await addComment(req);
