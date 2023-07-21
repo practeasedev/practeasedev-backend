@@ -9,6 +9,7 @@ import mailingRouter from './routes/mailing';
 import cors from 'cors';
 import authRouter from "./routes/auth";
 import { authorizationCheck } from "./middleware/authorization";
+import userTrackingRouter from "./routes/user-tracking";
 const PORT = process.env.PORT || 5000;
 
 const app: Express = express();
@@ -24,6 +25,7 @@ app.use(`${API_PREFIX_v1}/projects`, projectsRouter);
 app.use(`${API_PREFIX_v1}/comments`, commentsRouter);
 app.use(`${API_PREFIX_v1}/auth`, authRouter);
 app.use(`${API_PREFIX_v1}/mails`,  mailingRouter);
+app.use(`${API_PREFIX_v1}/user_tracking`, userTrackingRouter)
 
 const startConnections = async () => {
   try {
