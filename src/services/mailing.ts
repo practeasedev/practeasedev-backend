@@ -1,5 +1,6 @@
-import nodemailer, {SendMailOptions} from 'nodemailer';
+import nodemailer from 'nodemailer';
 import { RESPONSE_STATUS } from '../common/constants';
+import { sanitizeHTML } from '../common/helper';
 
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -13,7 +14,10 @@ const transporter = nodemailer.createTransport({
 
 export const sendConactMail = async (name: string, email: string, message: string) => {
     try {
-        const sendEmail = await transporter.sendMail({
+        const cleanName = sanitizeHTML(name);
+        const cleanEmail = sanitizeHTML(email);
+        const cleanMessage = sanitizeHTML(message);
+        await transporter.sendMail({
             from: process.env.GMAIL_EMAIL,
             to: process.env.GMAIL_EMAIL,
             subject: `Contact message from ${name}`,
@@ -50,15 +54,15 @@ export const sendConactMail = async (name: string, email: string, message: strin
                             <div class="message-elements">
                                 <div class="element">
                                     <p class="element-name">Name</p>
-                                    <p class="element-value">${name}</p>
+                                    <p class="element-value">${cleanName}</p>
                                 </div>
                                 <div class="element">
                                     <p class="element-name">Email</p>
-                                    <p class="element-value">${email}</p>
+                                    <p class="element-value">${cleanEmail}</p>
                                 </div>
                                 <div class="element">
                                     <p class="element-name">Message</p>
-                                    <p class="element-value">${message}</p>
+                                    <p class="element-value">${cleanMessage}</p>
                                 </div>
                             </div>
                         </div>

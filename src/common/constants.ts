@@ -1,3 +1,5 @@
+import { IOptions } from 'sanitize-html';
+
 export const API_PREFIX_v1 = "/api/v1";
 
 export enum RESPONSE_STATUS {
@@ -19,3 +21,9 @@ export const unguardedRoutes = [
   "/projects",
   "/comments/get_comments",
 ];
+
+export const SANITIZATION_OPTIONS:IOptions = {
+  allowedTags: [],
+  allowedAttributes: {},
+  disallowedTagsMode: 'escape'
+}
