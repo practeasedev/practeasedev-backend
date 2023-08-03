@@ -4,8 +4,10 @@
   "description": "backend for practeasedev website",
   "main": "server.js",
   "scripts": {
+    "build": "tsc",
     "watch": "tsc -w",
-    "dev": "nodemon ./dist/server.js"
+    "dev": "nodemon ./dist/server.js",
+    "start": "node ./dist/server.js"
   },
   "author": "Bhanu Teja & Anurag P",
   "license": "MIT",
