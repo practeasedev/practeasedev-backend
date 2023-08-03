@@ -1,4 +1,6 @@
+import { SANITIZATION_OPTIONS } from "./constants";
 import { IAPIResponse, IAPIResponseArgs } from "./types";
+import sanitizeHtml from 'sanitize-html';
 
 export const generateAPIResponse = ({
   message,
@@ -15,3 +17,11 @@ export const getInternalServerResponse = (error: any): IAPIResponse => {
       : "Something went wrong";
   return generateAPIResponse({ message });
 };
+
+export const sanitizeHTML = (contentToBeSanitized: string) => {
+  if(!contentToBeSanitized) {
+    return contentToBeSanitized
+  } 
+
+  return sanitizeHtml(contentToBeSanitized, SANITIZATION_OPTIONS);
+}

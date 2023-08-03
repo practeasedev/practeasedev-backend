@@ -1,10 +1,14 @@
 import { RESPONSE_STATUS } from "../common/constants";
 import Project from "../models/project.model";
 
-export const getProjects = async (filters: any) => {
+export const getProjects = async (filters: Array<string>, categories: Array<string>, sort:string) => {
   try {
     const projects = await Project.find(
-      { ...filters },
+      {
+        ...(categories?.length === 0 ? null : { category: {"$in": categories} } ),
+        ...(filters?.length === 0 ? null : { difficulty_level: { "$in": filters } })
+
+      },
       {
         project_name: 1,
         project_description: 1,
@@ -14,7 +18,10 @@ export const getProjects = async (filters: any) => {
         category: 1,
         slug: 1,
       }
-    );
+    ).sort({
+      ...(sort === 'most-recent' ? {created_on: -1} : null),
+      ...(sort === 'most-liked' ? {likes: -1} : null) 
+    });
 
     return {
       status: RESPONSE_STATUS.Success,

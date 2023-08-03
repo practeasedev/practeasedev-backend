@@ -4,8 +4,10 @@
   "description": "backend for practeasedev website",
   "main": "server.js",
   "scripts": {
+    "build": "tsc",
     "watch": "tsc -w",
-    "dev": "nodemon ./dist/server.js"
+    "dev": "nodemon ./dist/server.js",
+    "start": "node ./dist/server.js"
   },
   "author": "Bhanu Teja & Anurag P",
   "license": "MIT",
@@ -20,7 +22,8 @@
     "mongodb": "^5.3.0",
     "mongoose": "^7.0.4",
     "nodemailer": "^6.9.3",
-    "redis": "^4.6.5"
+    "redis": "^4.6.5",
+    "sanitize-html": "^2.11.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
@@ -31,6 +34,7 @@
     "@types/mongoose": "^5.11.97",
     "@types/nodemailer": "^6.4.8",
     "@types/redis": "^4.0.11",
+    "@types/sanitize-html": "^2.9.0",
     "nodemon": "^2.0.22",
     "typescript": "^5.0.3"
   }

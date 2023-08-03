@@ -6,10 +6,9 @@ import { ObjectId } from "mongodb";
 
 export const getAllProjects = async (req: Request) => {
   try {
-    const { filters } = req.body;
+    const { filters, categories, sort } = req.body;
     const { status, message, success, data }: IServiceResponse =
-      await getProjects(filters);
-
+      await getProjects(filters, categories, sort);
     return {
       status: status,
       response: generateAPIResponse({ message, success, data }),
