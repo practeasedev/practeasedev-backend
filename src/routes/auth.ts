@@ -19,7 +19,7 @@ authRouter.post("/register", async (req: Request, res: Response) => {
 authRouter.delete("/logout", async(req:Request, res:Response) => {
   try {
     res.status(RESPONSE_STATUS.Success).clearCookie('accessToken', {
-      domain: 'localhost',
+      domain: 'http://localhost:3000',
       path: '/'
     }).json(generateAPIResponse({ success: true, message: "Successfully logged out user"}));
     res.end();
