@@ -8,7 +8,7 @@ const authRouter = express.Router();
 authRouter.post("/register", async (req: Request, res: Response) => {
   try {
     const { status, response } = await registerUser(req);
-    res.status(status).cookie("accessToken", response.data).json(response);
+    res.status(status).cookie("accessToken", response.data, {path: '/'}).json(response);
   } catch (error) {
     res
       .status(RESPONSE_STATUS.Internal_Error)
@@ -19,7 +19,6 @@ authRouter.post("/register", async (req: Request, res: Response) => {
 authRouter.delete("/logout", async(req:Request, res:Response) => {
   try {
     res.status(RESPONSE_STATUS.Success).clearCookie('accessToken', {
-      domain: 'http://localhost:3000',
       path: '/'
     }).json(generateAPIResponse({ success: true, message: "Successfully logged out user"}));
     res.end();
