@@ -51,8 +51,10 @@ export const persistProjectStatus = async ({
       persistedRecord = await userRecord.save();
     }
     const projectDetails = await Project.findById(projectId);
-    projectDetails.likes += 1;
-    projectDetails.save()
+    projectDetails.likes = isLike
+      ? projectDetails.likes + 1
+      : projectDetails.likes - 1;
+    projectDetails.save();
     return {
       status: RESPONSE_STATUS.Success,
       success: true,
@@ -76,7 +78,7 @@ export const queryProjectStatus = async ({ projectId, userId }) => {
         is_liked: false,
         is_completed: false,
       },
-    }
+    };
   } catch (error) {
     throw error;
   }
