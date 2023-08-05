@@ -1,3 +1,4 @@
+import { CookieOptions } from 'express';
 import { IOptions } from 'sanitize-html';
 
 export const API_PREFIX_v1 = "/api/v1";
@@ -26,4 +27,12 @@ export const SANITIZATION_OPTIONS:IOptions = {
   allowedTags: [],
   allowedAttributes: {},
   disallowedTagsMode: 'escape'
+}
+
+
+export const COOKIE_CONFIG: CookieOptions = {
+  domain: "https://practease-dev.vercel.app",
+  path: '/',
+  sameSite: "none",
+  secure: true
 }
