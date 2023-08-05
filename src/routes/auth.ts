@@ -8,7 +8,7 @@ const authRouter = express.Router();
 authRouter.post("/register", async (req: Request, res: Response) => {
   try {
     const { status, response } = await registerUser(req);
-    res.status(status).cookie("accessToken", response.data, {domain: "https://practease-dev.vercel.app",path: '/'}).json(response);
+    res.status(status).cookie("accessToken", response.data, {domain: "https://practease-dev.vercel.app",path: '/', sameSite: "none"}).json(response);
   } catch (error) {
     res
       .status(RESPONSE_STATUS.Internal_Error)
@@ -20,7 +20,8 @@ authRouter.delete("/logout", async(req:Request, res:Response) => {
   try {
     res.status(RESPONSE_STATUS.Success).clearCookie('accessToken', {
       domain: "https://practease-dev.vercel.app",
-      path: '/'
+      path: '/',
+      sameSite: "none"
     }).json(generateAPIResponse({ success: true, message: "Successfully logged out user"}));
     res.end();
   } catch (error) {
