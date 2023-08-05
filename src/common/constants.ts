@@ -31,7 +31,7 @@ export const SANITIZATION_OPTIONS:IOptions = {
 
 
 export const COOKIE_CONFIG: CookieOptions = {
-  domain: ".vercel.app",
+  domain: ".cyclic.cloud",
   path: '/',
   sameSite: "none",
   secure: true
