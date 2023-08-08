@@ -31,8 +31,8 @@ export const SANITIZATION_OPTIONS:IOptions = {
 
 
 export const COOKIE_CONFIG: CookieOptions = {
-  domain: "practease-dev.vercel.app",
   path: '/',
+  domain: ".practease-dev.vercel.app",
   sameSite: "none",
   secure: true,
   maxAge: 24*60*60
