@@ -8,7 +8,7 @@ const authRouter = express.Router();
 authRouter.post("/register", async (req: Request, res: Response) => {
   try {
     const { status, response } = await registerUser(req);
-    res.status(status).cookie("accessToken", response.data, COOKIE_CONFIG).json(response);
+    res.status(status).json(response);
   } catch (error) {
     res
       .status(RESPONSE_STATUS.Internal_Error)

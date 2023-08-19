@@ -5,6 +5,7 @@ import projectsRouter from "./routes/projects";
 import { API_PREFIX_v1 } from "./common/constants";
 import commentsRouter from "./routes/comments";
 import mailingRouter from './routes/mailing';
+import downloadRouter from './routes/download';
 // import redisClient from "./services/cache";
 import cors from 'cors';
 import authRouter from "./routes/auth";
@@ -15,7 +16,7 @@ const PORT = process.env.PORT || 5000;
 const app: Express = express();
 
 app.use(cors({
-  origin: "https://practease-dev.vercel.app", // "http://localhost:3000",
+  origin: "http://localhost:3000", // "http://localhost:3000",
   credentials: true
 }));
 
@@ -25,7 +26,8 @@ app.use(`${API_PREFIX_v1}/projects`, projectsRouter);
 app.use(`${API_PREFIX_v1}/comments`, commentsRouter);
 app.use(`${API_PREFIX_v1}/auth`, authRouter);
 app.use(`${API_PREFIX_v1}/mails`,  mailingRouter);
-app.use(`${API_PREFIX_v1}/user_tracking`, userTrackingRouter)
+app.use(`${API_PREFIX_v1}/user_tracking`, userTrackingRouter);
+app.use(`${API_PREFIX_v1}/download`, downloadRouter);
 
 const startConnections = async () => {
   try {
