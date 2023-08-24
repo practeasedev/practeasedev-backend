@@ -31,10 +31,10 @@ const ProjectSchema: Schema = new Schema({
         default: Category.components
     },
     figma_link: String,
-    user_stories: String,
+    user_stories: [String],
     download_link: String,
-    key_concepts: String,
-    resource_links: String,  
+    key_concepts: [String],
+    resource_links: [String],  
     created_on: {
         type: String,
         immutable: true,
