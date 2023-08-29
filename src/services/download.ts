@@ -3,7 +3,8 @@ import path from 'path';
 import { RESPONSE_STATUS } from '../common/constants';
 
 export const getProjectFolderPath = (projectName: String) => {
-    const folderPath = path.join(__dirname, '../projects/hero-section.zip');
+    const folderPath = path.join(__dirname, `../projects/${projectName
+    }.zip`);
     if (fs.existsSync(folderPath)) {
         return {
             status: RESPONSE_STATUS.Success,

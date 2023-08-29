@@ -21,6 +21,7 @@ export const unguardedRoutes = [
   "/logout",
   "/projects",
   "/comments/get_comments",
+  "/download"
 ];
 
 export const SANITIZATION_OPTIONS:IOptions = {
