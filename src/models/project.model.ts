@@ -34,7 +34,7 @@ const ProjectSchema: Schema = new Schema({
     user_stories: [String],
     download_link: String,
     key_concepts: [String],
-    resource_links: [String],  
+    resource_links: [{title: String, link: String}],  
     created_on: {
         type: String,
         immutable: true,
