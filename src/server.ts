@@ -11,6 +11,7 @@ import cors from 'cors';
 import authRouter from "./routes/auth";
 import { authorizationCheck } from "./middleware/authorization";
 import userTrackingRouter from "./routes/user-tracking";
+import solutionsRouter from "./routes/solutions";
 const PORT = process.env.PORT || 5000;
 
 const app: Express = express();
@@ -28,6 +29,7 @@ app.use(`${API_PREFIX_v1}/auth`, authRouter);
 app.use(`${API_PREFIX_v1}/mails`,  mailingRouter);
 app.use(`${API_PREFIX_v1}/user_tracking`, userTrackingRouter);
 app.use(`${API_PREFIX_v1}/download`, downloadRouter);
+app.use(`${API_PREFIX_v1}/solutions`, solutionsRouter)
 
 const startConnections = async () => {
   try {
