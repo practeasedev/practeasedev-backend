@@ -26,9 +26,14 @@ export const getComments = async (
         offset: offset as number,
       });
 
+    const commentsData = data.map(({ userDetails, ...rest }: any) => {
+      const { github_id, avatar_url } = userDetails[0]
+      return { ...rest, user_name: github_id, user_avatar_url: avatar_url };
+    });
+
     return {
       status,
-      response: generateAPIResponse({ message, success, data }),
+      response: generateAPIResponse({ message, success, data: commentsData }),
     };
   } catch (error) {
     throw error;
@@ -43,7 +48,7 @@ export const addComment = async ({
   try {
     const { projectId } = params;
     const { commentText = "" } = body || {};
-    const { userId, userName, avatarUrl } = user;
+    const { userId } = user;
     if (!commentText) {
       return {
         status: RESPONSE_STATUS.Bad_Request,
@@ -57,8 +62,6 @@ export const addComment = async ({
       await addCommentForProject({
         userId,
         commentText,
-        userName,
-        avatarUrl,
         projectId: projectId as unknown as Types.ObjectId,
       });
 

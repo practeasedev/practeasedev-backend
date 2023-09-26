@@ -13,8 +13,6 @@ interface IAddCommentForProject {
   projectId: Types.ObjectId;
   userId: string;
   commentText: string;
-  userName: string;
-  avatarUrl: string;
 }
 
 interface IEditCommentById {
@@ -36,11 +34,20 @@ export const getCommentsByOffset = async ({
 }: IGetComments): Promise<IServiceResponse> => {
   try {
     const comments = await projectComment
-      .find(
-        { project_id: { $eq: new ObjectId(projectId) } },
-        { user_id: 0, project_id: 0, _v: 0, is_deleted: 0, created_on: 0 }
-      )
-      .sort({ created_on: "desc" })
+      .aggregate([
+        { $match: { project_id: { $eq: new ObjectId(projectId) } } },
+        {
+          $lookup: {
+            from: "users",
+            localField: "user_id",
+            foreignField: "_id",
+            pipeline: [{ $project: { _id: 0, github_id: 1, avatar_url: 1 } }],
+            as: "userDetails",
+          },
+        },
+        { $project: { comment: 1, modified_on: 1, userDetails: 1 } },
+      ])
+      .sort({ modified_on: "desc" })
       .skip(offset * COMMENTS_LIMIT)
       .limit(COMMENTS_LIMIT);
 
@@ -60,16 +67,12 @@ export const getCommentsByOffset = async ({
 export const addCommentForProject = async ({
   projectId,
   userId,
-  userName,
-  avatarUrl,
   commentText,
 }: IAddCommentForProject): Promise<IServiceResponse> => {
   try {
     const addedComment = await projectComment.create({
       project_id: new ObjectId(projectId),
       user_id: new ObjectId(userId),
-      user_name: userName,
-      user_avatar_url: avatarUrl,
       comment: commentText,
     });
 
