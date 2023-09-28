@@ -38,6 +38,7 @@ export const getSolutionsByOffset = async ({
         {
           $project: {
             _id: 1,
+            user_id: 1,
             github_link: 1,
             description: 1,
             userDetails: 1,
