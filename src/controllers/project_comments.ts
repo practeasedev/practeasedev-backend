@@ -27,7 +27,7 @@ export const getComments = async (
       });
 
     const commentsData = data.map(({ userDetails, ...rest }: any) => {
-      const { github_id, avatar_url } = userDetails[0]
+      const { github_id, avatar_url } = userDetails[0];
       return { ...rest, user_name: github_id, user_avatar_url: avatar_url };
     });
 
@@ -48,7 +48,7 @@ export const addComment = async ({
   try {
     const { projectId } = params;
     const { commentText = "" } = body || {};
-    const { userId } = user;
+    const { userId, userName, avatarUrl } = user;
     if (!commentText) {
       return {
         status: RESPONSE_STATUS.Bad_Request,
@@ -58,16 +58,20 @@ export const addComment = async ({
       };
     }
 
-    const { status, message, data, success }: IServiceResponse =
-      await addCommentForProject({
-        userId,
-        commentText,
-        projectId: projectId as unknown as Types.ObjectId,
-      });
+    const { status, message, data: comment, success }: IServiceResponse = await addCommentForProject({
+      userId,
+      commentText,
+      projectId: projectId as unknown as Types.ObjectId,
+    });
 
+    const commentDetails = {
+      ...comment._doc,
+      user_name: userName,
+      user_avatar_url: avatarUrl,
+    };
     return {
       status,
-      response: generateAPIResponse({ message, success, data }),
+      response: generateAPIResponse({ message, success, data: commentDetails }),
     };
   } catch (error) {
     throw error;
@@ -82,7 +86,7 @@ export const editComment = async ({
   try {
     const { commentId } = params;
     const { commentText = "" } = body || {};
-    const { userId } = user;
+    const { userId, userName, avatarUrl } = user;
     if (!commentText) {
       return {
         status: RESPONSE_STATUS.Bad_Request,
@@ -92,16 +96,20 @@ export const editComment = async ({
       };
     }
 
-    const { status, message, data, success }: IServiceResponse =
+    const { status, message, data: comment, success }: IServiceResponse =
       await editCommentById({
         userId: userId as unknown as Types.ObjectId,
         commentId: commentId as unknown as Types.ObjectId,
         commentText,
       });
-
+      const commentDetails = {
+        ...comment._doc,
+        user_name: userName,
+        user_avatar_url: avatarUrl,
+      };
     return {
       status,
-      response: generateAPIResponse({ message, success, data }),
+      response: generateAPIResponse({ message, success, data: commentDetails }),
     };
   } catch (error) {
     throw error;
