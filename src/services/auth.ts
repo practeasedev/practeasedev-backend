@@ -5,7 +5,7 @@ export const getUserDataIfExists = async (email: string) => {
     try {
         const userData = await User.findOne(
             {github_email: email},
-            {_id:1 , avatar_url: 1, github_id: 1}
+            {_id:1 , avatar_url: 1, github_id: 1, is_account_deleted: 1}
         );
 
         if(!userData) {
@@ -49,4 +49,25 @@ export const createNewUser = async (email:string, avatarUrl:string, name:string)
     } catch(error) {
         throw error;
     }   
+}
+
+export const deleteUser =  async (userId: string) => {
+    try {
+        const deletedUser = await User.updateOne({
+            _id: userId
+        }, {
+            is_account_deleted: true
+        });
+        
+        return {
+            status: deleteUser ? RESPONSE_STATUS.Success : RESPONSE_STATUS.Bad_Request,
+            success: deletedUser ?  true : false,
+            message: deletedUser
+              ? "Successfully deleted the comment"
+              : "User not found",
+            data: {},
+        }
+    } catch(error) {
+        throw error;
+    }
 }

@@ -5,10 +5,12 @@ import {
   GITHUB_OAUTH_CLIENT_ID,
   GITHUB_GET_USER_URL,
   GITHUB_USER_EMAIL_URL,
+  RESPONSE_STATUS,
 } from "../common/constants";
 import { generateAPIResponse } from "../common/helper";
-import { createNewUser, getUserDataIfExists } from "../services/auth";
+import { createNewUser, deleteUser, getUserDataIfExists } from "../services/auth";
 import { createJWTToken } from "../services/jwttoken";
+import { IRequestWithUserDetails, IServiceResponse } from "../common/types";
 
 export const registerUser = async (req: Request) => {
   try {
@@ -109,22 +111,39 @@ export const registerUser = async (req: Request) => {
     }
 
     const userAccessToken = createJWTToken(userData);
-    // const userAccessToken = createJWTToken({
-    //   userName: "Test User0",
-    //   userId: "644427053a1450db9ee14f85",
-    // });
+    const { is_account_deleted } = userDataResult.data as any;
 
     return {
-      status: 200,
+      status: is_account_deleted ? RESPONSE_STATUS.Bad_Request : RESPONSE_STATUS.Success,
       response: generateAPIResponse({
-        message: isNewUser
-          ? "successfully created user"
-          : "successfully logged in",
-        data: userAccessToken,
-        success: true,
+        message: is_account_deleted ? "User has been deleted" : isNewUser
+          ? "Successfully created user"
+          : "Successfully logged in",
+        data: is_account_deleted ? {} : userAccessToken ,
+        success: !is_account_deleted,
       }),
     };
   } catch (error) {
     throw error;
   }
 };
+
+export const deleteUserFromDB = async (req: IRequestWithUserDetails) => {
+  try {
+    const { reason } = req.body;
+    const user = req.user;
+    const {status, message, data, success }: IServiceResponse = await deleteUser(user.userId);
+    
+
+    return {
+      status: status,
+      response: generateAPIResponse({
+        success: success,
+        message: message,
+        data: data,
+      }),
+    };
+  } catch(error) {
+    throw error;
+  }
+}
