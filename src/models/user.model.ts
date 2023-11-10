@@ -7,6 +7,10 @@ const UserSchema: Schema = new Schema({
     completed_projects: Number,
     is_account_deleted: Boolean,
     avatar_url: String,
+    reason_for_delete: {
+        type: String,
+        default: null,
+    },
     created_on: {
         type: Date,
         immutable: true,

@@ -90,7 +90,7 @@ export const updateUserDetails = async ({ github_id, name, avatarUrl }) => {
   }
 };
 
-export const deleteUser = async (userId: string) => {
+export const deleteUser = async (userId: string, reason:string) => {
   try {
     const deletedUser = await User.updateOne(
       {
@@ -98,6 +98,7 @@ export const deleteUser = async (userId: string) => {
       },
       {
         is_account_deleted: true,
+        reason_for_delete: reason
       }
     );
 
