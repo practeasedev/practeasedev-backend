@@ -27,8 +27,8 @@ export const getComments = async (
       });
 
     const commentsData = data.map(({ userDetails, ...rest }: any) => {
-      const { github_id, avatar_url } = userDetails[0];
-      return { ...rest, user_name: github_id, user_avatar_url: avatar_url };
+      const { user_name, avatar_url, is_account_deleted } = userDetails[0];
+      return { ...rest, user_name: !is_account_deleted ? user_name: "Deleted User", user_avatar_url: !is_account_deleted ? avatar_url : null };
     });
 
     return {
