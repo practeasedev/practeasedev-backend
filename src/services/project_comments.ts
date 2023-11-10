@@ -41,7 +41,7 @@ export const getCommentsByOffset = async ({
             from: "users",
             localField: "user_id",
             foreignField: "_id",
-            pipeline: [{ $project: { _id: 0, github_id: 1, avatar_url: 1 } }],
+            pipeline: [{ $project: { _id: 0, user_name: 1, avatar_url: 1, is_account_deleted: 1 } }],
             as: "userDetails",
           },
         },

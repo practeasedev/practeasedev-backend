@@ -25,7 +25,7 @@ export const fetchSolutions = async ({
     const formattedData = await data.map(({userDetails, ...solutionDetails})=>{
       return ({
       ...solutionDetails,
-      userName: userDetails[0]?.github_id,
+      userName: userDetails[0]?.user_name,
       avatar_url: userDetails[0]?.avatar_url,
     })});
 
