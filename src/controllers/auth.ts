@@ -182,8 +182,19 @@ export const deleteUserFromDB = async (
   try {
     const { reason } = req.body;
     const user = req.user;
-    const { status, message, data, success }: IServiceResponse =
-      await deleteUser(user.userId);
+
+    if (!reason || !user) {
+      return {
+        status: 400,
+        response: generateAPIResponse({
+          message: "Mandatory params are missing",
+          data: {},
+        }),
+       
+      };
+    }
+    const {status, message, data, success }: IServiceResponse = await deleteUser(user.userId, reason);
+    
 
     return {
       status: status,
