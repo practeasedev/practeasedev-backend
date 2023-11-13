@@ -46,7 +46,7 @@ export const submitSolution = async ({
   try {
     const { projectId } = params;
     const { githubLink, description } = body;
-    const { userId } = user;
+    const { userId, userName, avatarUrl } = user;
 
     if (!githubLink) {
       return {
@@ -57,7 +57,7 @@ export const submitSolution = async ({
       };
     }
 
-    const { status, message, data, success }: IServiceResponse =
+    const { status, message, data: solution, success }: IServiceResponse =
       await postSolution({
         projectId: projectId as unknown as Types.ObjectId,
         userId,
@@ -65,9 +65,15 @@ export const submitSolution = async ({
         description,
       });
 
+    const solutionsData = {
+      ...solution._doc,
+      userName: userName,
+      avatar_url: avatarUrl,
+    }
+
     return {
       status,
-      response: generateAPIResponse({ message, success, data }),
+      response: generateAPIResponse({ message, success, data: solutionsData }),
     };
   } catch (error) {
     throw error;
