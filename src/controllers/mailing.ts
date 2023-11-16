@@ -21,6 +21,7 @@ export const sendEmail = async (req: Request) => {
         return {
             status: 200,
             response: generateAPIResponse({
+                success: true,
                 message: "Successfully sent mail"
             })
         }
