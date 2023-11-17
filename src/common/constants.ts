@@ -23,7 +23,8 @@ export const unguardedRoutes = [
   "/projects",
   "/comments/get_comments",
   "/download",
-  "/solutions/get"
+  "/solutions/get",
+  "/mails/send-contact-email",
 ];
 
 export const SANITIZATION_OPTIONS:IOptions = {
