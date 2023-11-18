@@ -14,7 +14,7 @@ export const GITHUB_ACCESS_TOKEN_URL =
   "https://github.com/login/oauth/access_token";
 export const GITHUB_USER_EMAIL_URL = "https://api.github.com/user/emails";
 export const GITHUB_GET_USER_URL = "https://api.github.com/user";
-export const GITHUB_OAUTH_CLIENT_ID = "2820d613e98ffd4c060a";
+export const GITHUB_OAUTH_CLIENT_ID = "7e24771cb4cdedb85d94";
 
 export const unguardedRoutes = [
   "/login",
