@@ -17,7 +17,8 @@ const PORT = process.env.PORT || 5000;
 const app: Express = express();
 
 app.use(cors({
-  origin: "https://practease-dev.vercel.app", // "http://localhost:3000",
+  origin: "https://practease-dev.vercel.app",
+  // origin: "http://localhost:3000",
   credentials: true
 }));
 
@@ -36,9 +37,9 @@ const startConnections = async () => {
     const mongooseConnection = await mongoose.connect(process.env.DB_CONNECTION_URI);
     // const redisConnection = redisClient.connect();
     await Promise.all([mongooseConnection]);
-    console.log("Successfully connected to db and cache");
+    console.log("Successfully connected to db");
   } catch (error) {
-    console.log("Error while connecting to db/cache: ", error.message);
+    console.log("Error while connecting to db: ", error.message);
   }
 };
 

@@ -25,3 +25,9 @@ export const sanitizeHTML = (contentToBeSanitized: string) => {
 
   return sanitizeHtml(contentToBeSanitized, SANITIZATION_OPTIONS);
 }
+
+export const getNameFromEmailId = (email: string): string => {
+  const firstEmailPart = email.split("@")[0];
+  const nameParts = firstEmailPart.split(".").map(namePart => `${namePart[0]?.toUpperCase()}${namePart.slice(1)}`)
+  return nameParts.join(" ")
+}

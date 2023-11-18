@@ -17,12 +17,14 @@ export const GITHUB_GET_USER_URL = "https://api.github.com/user";
 export const GITHUB_OAUTH_CLIENT_ID = "2820d613e98ffd4c060a";
 
 export const unguardedRoutes = [
-  "/register",
+  "/login",
   "/logout",
+  "/restoreUserAccount",
   "/projects",
   "/comments/get_comments",
   "/download",
-  "/solutions/get"
+  "/solutions/get",
+  "/mails/send-contact-email",
 ];
 
 export const SANITIZATION_OPTIONS:IOptions = {

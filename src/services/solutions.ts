@@ -25,16 +25,27 @@ export const getSolutionsByOffset = async ({
   try {
     const solutionsByOffset = await solutions
       .aggregate([
-        {$match: { project_id: { $eq: new ObjectId(projectId) } }},
+        { $match: { project_id: { $eq: new ObjectId(projectId) } } },
         {
           $lookup: {
             from: "users",
             localField: "user_id",
             foreignField: "_id",
-            pipeline: [{ $project: { _id: 0, github_id: 1, avatar_url: 1 } }],
+            pipeline: [
+              { $match: { is_account_deleted: { $eq: false } } },
+              {
+                $project: {
+                  _id: 0,
+                  user_name: 1,
+                  avatar_url: 1,
+                  is_account_deleted: 1,
+                },
+              },
+            ],
             as: "userDetails",
           },
         },
+        { $match: { $expr: { $eq: [1, { $size: "$userDetails"} ] } } },
         {
           $project: {
             _id: 1,
