@@ -11,7 +11,6 @@ authRouter.post("/login", async (req: Request, res: Response) => {
     const { status, response } = await loginUser(req);
     res.status(status).json(response);
   } catch (error) {
-    console.log(error)
     res
       .status(RESPONSE_STATUS.Internal_Error)
       .json(getInternalServerResponse(error));

@@ -177,7 +177,6 @@ export const loginUser = async (req: Request): Promise<IControllerResponse> => {
       },
     };
   } catch (error) {
-    console.log(error)
     throw error;
   }
 };
