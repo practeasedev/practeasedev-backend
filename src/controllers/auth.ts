@@ -22,6 +22,7 @@ import {
   IRequestWithUserDetails,
   IServiceResponse,
 } from "../common/types";
+import { sendRegistrationMail } from "../services/mailing";
 
 const getGithubAccessToken = async (
   req: Request
@@ -135,9 +136,11 @@ export const loginUser = async (req: Request): Promise<IControllerResponse> => {
       const { userEmail, emailError } = await getGithubUserEmail(accessToken);
       if (emailError || !userEmail) throw Error("Error fetching email");
 
+      const userName =  name ?? getNameFromEmailId(userEmail);
+
       const createUserPayload = {
         github_email: userEmail,
-        user_name: name ?? getNameFromEmailId(userEmail),
+        user_name: userName,
         github_id,
         avatar_url: github_avatar_url,
         created_on: new Date(),
@@ -147,6 +150,8 @@ export const loginUser = async (req: Request): Promise<IControllerResponse> => {
         createUserPayload
       );
       if (registerError) throw Error("Error Creating User Record");
+
+      sendRegistrationMail(userName, userEmail)
 
       userData = {
         userId: newUserDetails._id,

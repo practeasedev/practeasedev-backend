@@ -80,3 +80,66 @@ export const sendConactMail = async (name: string, email: string, message: strin
         throw error;
     }
 }
+
+export const sendRegistrationMail = async (name: string, email: string) => {
+    try {
+        const cleanName = sanitizeHTML(name);
+        const cleanEmail = sanitizeHTML(email);
+        await transporter.sendMail({
+            from: process.env.GMAIL_EMAIL,
+            to: process.env.GMAIL_EMAIL,
+            subject: `New registration!`,
+            html: `
+                <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Registration Email</title>
+                        <style>
+                            * {
+                                margin:0;
+                                padding:0;
+                            }
+
+                            .registration-message-container {
+                                width:450px;
+                            }
+                            .element {
+                                padding:0.75rem 0;
+                            }
+                    
+                            .element-name{
+                                margin-bottom:0.5rem;
+                                font-size:1.2rem;
+                                font-weight:bold;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="registration-message-container">
+                            <div class="message-elements">
+                                <div class="element">
+                                    <p class="element-name">Name</p>
+                                    <p class="element-value">${cleanName}</p>
+                                </div>
+                                <div class="element">
+                                    <p class="element-name">Email</p>
+                                    <p class="element-value">${cleanEmail}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </body>
+                </html>
+             `
+        });
+
+        return {
+            status: RESPONSE_STATUS.Success,
+            success: true,
+            message: 'Mail sent'
+        }
+    } catch (error) {
+        throw error;
+    }
+}
