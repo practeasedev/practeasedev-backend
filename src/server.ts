@@ -37,9 +37,9 @@ const startConnections = async () => {
     const mongooseConnection = await mongoose.connect(process.env.DB_CONNECTION_URI);
     // const redisConnection = redisClient.connect();
     await Promise.all([mongooseConnection]);
-    console.log("Successfully connected to db and cache");
+    console.log("Successfully connected to db");
   } catch (error) {
-    console.log("Error while connecting to db/cache: ", error.message);
+    console.log("Error while connecting to db: ", error.message);
   }
 };
 
